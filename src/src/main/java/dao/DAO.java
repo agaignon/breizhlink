@@ -40,31 +40,30 @@ public class DAO {
 	public static void insertUrl(Url url) {
 		try {
 			connect();
-			String sql1 = "INSERT INTO url (id, source_url, short_url, url_type)" + "VALUES (default, ?, ?, ?)";
-			PreparedStatement preparedStatement1 = conn.prepareStatement(sql1);			
-			preparedStatement1.setString(1, url.getSourceUrl());
-			preparedStatement1.setString(2, url.getShortUrl());
-			preparedStatement1.setString(3, url.getClass().getSimpleName());
-			preparedStatement1.executeUpdate();
-			preparedStatement1.close();
+			String sqlUrl = "INSERT INTO url (id, source_url, short_url, url_type)" + "VALUES (default, ?, ?, ?)";
+			PreparedStatement psUrl = conn.prepareStatement(sqlUrl, Statement.RETURN_GENERATED_KEYS);			
+			psUrl.setString(1, url.getSourceUrl());
+			psUrl.setString(2, url.getShortUrl());
+			psUrl.setString(3, url.getClass().getSimpleName());
+			psUrl.executeUpdate();					
 			
-			if (url.getPassword() != null) {
+			if (!url.getPassword().equals("")) {			
 				
-				String sql2 = "SELECT id FROM url where short_url = ?";
-				PreparedStatement preparedStatement2 = conn.prepareStatement(sql2);			
-				preparedStatement2.setString(1, url.getShortUrl());
-				ResultSet rs = preparedStatement2.executeQuery();
-				rs.next();
-				Long urlId = rs.getLong(1);
-				preparedStatement2.close();
-				
-				String sql3 = "INSERT INTO url_passwords (id, id_url, password)" + "VALUES (default, ?, ?)";
-				PreparedStatement preparedStatement3 = conn.prepareStatement(sql3);					
-				preparedStatement3.setLong(1,urlId);
-				String hashedPassword = BCrypt.hashpw(url.getPassword(), BCrypt.gensalt());
-				preparedStatement3.setString(2, hashedPassword);
+				// Get last generated url id
+				ResultSet rs = psUrl.getGeneratedKeys();
+				Long urlId = null;
+				if (rs.next()) urlId = rs.getLong(1);				
+				String hashedPassword = BCrypt.hashpw(url.getPassword(), BCrypt.gensalt());				
+				String sqlPwd = "INSERT INTO url_passwords (id, id_url, password)" + "VALUES (default, ?, ?)";
+				PreparedStatement psPwd = conn.prepareStatement(sqlPwd);					
+				psPwd.setLong(1, urlId);				
+				psPwd.setString(2, hashedPassword);
+				psPwd.executeUpdate();
+				psPwd.close();
+				rs.close();
 			}
 			
+			psUrl.close();
 			close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,15 +73,15 @@ public class DAO {
 	public static void loadUsedUrls () {
 		try {
 			connect();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT short_url FROM url");
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT short_url FROM url");
 			HashSet<String> usedUrls = new HashSet<>();
 			while (rs.next()) {
 				usedUrls.add(rs.getString(1));
 			}
 			UrlGenerator.setUsedUrls(usedUrls);
 			rs.close();
-			stmt.close();
+			statement.close();
 			close();
 		} catch (SQLException e) {
 			e.printStackTrace();

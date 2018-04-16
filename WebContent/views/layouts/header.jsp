@@ -17,4 +17,5 @@
     <div class="stickyheader">
         <h2 class="headercontent">BreizhLink</h2>
     </div>
+    <div class="header-margin"></div>
 </body>

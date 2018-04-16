@@ -1,3 +1,3 @@
 <jsp:include page="layouts/header.jsp" />
-<a href="${shortenedUrl}">${shortenedUrl}</a>
+<a href="${shortUrl}">${shortUrl}</a>
 <jsp:include page="layouts/footer.jsp" />

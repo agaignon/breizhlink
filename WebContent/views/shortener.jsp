@@ -3,7 +3,7 @@
 <form action="?action=doShorten" class="three columns offset-by-four" method="post">
 
 	<div class="one-half column"><label for="url_input">URL to shorten</label>
-	<input id="url_input" name="urlToShorten" type="text"> 
+	<input id="url_input" name="sourceUrl" type="text"> 
 	
 	
 	<label for="show_password_div_button" id='show_password_label'>Secure with password

@@ -20,3 +20,7 @@ body{
 .headercontent{
     padding-left: 50px;
 }
+
+.header-margin {
+	height: 60px;
+}
