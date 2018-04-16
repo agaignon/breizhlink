@@ -14,6 +14,20 @@ public class AuthenticatedUrl extends Url {
 	private Date endDate;
 	private Boolean captcha;
 	
+	public AuthenticatedUrl(String sourceUrl, String shortUrl, String password, List<String> passwordList,
+			List<Stats> statsList, User user, String mail, Date creationDate, Date startDate, Date endDate,
+			Boolean captcha) {
+		super(sourceUrl, shortUrl, password);
+		this.passwordList = passwordList;
+		this.statsList = statsList;
+		this.user = user;
+		this.mail = mail;
+		this.creationDate = creationDate;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.captcha = captcha;
+	}
+	
 	public AuthenticatedUrl(Long id, String sourceUrl, String shortUrl, String password, List<String> passwordList,
 			List<Stats> statsList, User user, String mail, Date creationDate, Date startDate, Date endDate,
 			Boolean captcha) {

@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 
 import src.main.java.model.Url;
+import src.main.java.util.BCrypt;
 import src.main.java.util.UrlGenerator;
 public class DAO {
 
@@ -39,13 +40,31 @@ public class DAO {
 	public static void insertUrl(Url url) {
 		try {
 			connect();
-			String sql = "INSERT INTO url (id, original_url, shortened_url, password)" + "VALUES (default, ?, ?, ?)";
-			PreparedStatement preparedStatement = conn.prepareStatement(sql);			
-			preparedStatement.setString(1, url.getOriginalUrl());
-			preparedStatement.setString(2, url.getShortenedUrl());
-			preparedStatement.setString(3, url.getPassword());
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			String sql1 = "INSERT INTO url (id, source_url, short_url, url_type)" + "VALUES (default, ?, ?, ?)";
+			PreparedStatement preparedStatement1 = conn.prepareStatement(sql1);			
+			preparedStatement1.setString(1, url.getSourceUrl());
+			preparedStatement1.setString(2, url.getShortUrl());
+			preparedStatement1.setString(3, url.getClass().getSimpleName());
+			preparedStatement1.executeUpdate();
+			preparedStatement1.close();
+			
+			if (url.getPassword() != null) {
+				
+				String sql2 = "SELECT id FROM url where short_url = ?";
+				PreparedStatement preparedStatement2 = conn.prepareStatement(sql2);			
+				preparedStatement2.setString(1, url.getShortUrl());
+				ResultSet rs = preparedStatement2.executeQuery();
+				rs.next();
+				Long urlId = rs.getLong(1);
+				preparedStatement2.close();
+				
+				String sql3 = "INSERT INTO url_passwords (id, id_url, password)" + "VALUES (default, ?, ?)";
+				PreparedStatement preparedStatement3 = conn.prepareStatement(sql3);					
+				preparedStatement3.setLong(1,urlId);
+				String hashedPassword = BCrypt.hashpw(url.getPassword(), BCrypt.gensalt());
+				preparedStatement3.setString(2, hashedPassword);
+			}
+			
 			close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,7 +75,7 @@ public class DAO {
 		try {
 			connect();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT shortened_url FROM url");
+			ResultSet rs = stmt.executeQuery("SELECT short_url FROM url");
 			HashSet<String> usedUrls = new HashSet<>();
 			while (rs.next()) {
 				usedUrls.add(rs.getString(1));

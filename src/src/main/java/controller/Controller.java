@@ -64,12 +64,12 @@ public class Controller extends HttpServlet {
 		
 		switch (action) {
 			case "doShorten":
-				String originalUrl = request.getParameter("urlToShorten");
-				String shortenedUrl = UrlGenerator.generateUrl();
+				String sourceUrl = request.getParameter("urlToShorten");
+				String shortUrl = UrlGenerator.generateUrl();
 				String password = request.getParameter("password");
-				Url url = new Url(originalUrl, shortenedUrl, password);
+				Url url = new Url(sourceUrl, shortUrl, password);
 				DAO.insertUrl(url);
-				request.setAttribute("shortenedUrl", shortenedUrl);
+				request.setAttribute("shortenedUrl", shortUrl);
 				page = "views/result.jsp";
 				break;
 	

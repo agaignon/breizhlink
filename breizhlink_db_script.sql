@@ -17,6 +17,7 @@ foreign key (id_status) references status(id)
 
 create table url (
 id serial,
+id_user bigint unsigned,
 source_url text,
 short_url text,
 mail text,
@@ -25,7 +26,8 @@ start_date date,
 end_date date,
 captcha boolean,
 url_type text,
-primary key (id)
+primary key (id),
+foreign key (id_user) references user(id)
 );
 
 create table stats (

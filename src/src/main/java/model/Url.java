@@ -7,6 +7,12 @@ public class Url {
 	private String shortUrl;
 	private String password;
 	
+	public Url(String sourceUrl, String shortUrl, String password) {
+		this.sourceUrl = sourceUrl;
+		this.shortUrl = shortUrl;
+		this.password = password;
+	}
+	
 	public Url(Long id, String sourceUrl, String shortUrl, String password) {
 		this.id = id;
 		this.sourceUrl = sourceUrl;
