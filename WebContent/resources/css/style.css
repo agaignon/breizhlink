@@ -1,0 +1,22 @@
+body{
+    font-family: 'Roboto';
+}
+
+.mainwrapper{
+    margin-top: 60px;
+}
+
+.stickyheader{
+    overflow: hidden;
+    height: 60px;
+    background-color: rgb(49, 50, 116);
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    color: white;
+    font-family: 'Roboto';
+}
+
+.headercontent{
+    padding-left: 50px;
+}

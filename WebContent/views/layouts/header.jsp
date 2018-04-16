@@ -6,6 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="./resources/js/functions.js"></script>
+<link href="./resources/css/style.css" rel="stylesheet"/>
+<link href="./resources/css/normalize.css" rel="stylesheet"/>
+<link href="./resources/css/skeleton.css" rel="stylesheet"/>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
 <title>Breizhlink</title>
 </head>
 <body>
+    <div class="stickyheader">
+        <h2 class="headercontent">BreizhLink</h2>
+    </div>
+</body>

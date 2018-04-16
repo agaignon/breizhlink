@@ -10,15 +10,19 @@ import java.util.HashSet;
 
 import src.main.java.model.Url;
 import src.main.java.util.UrlGenerator;
-
 public class DAO {
 
 	private static Connection conn;
 
 	private static void connect() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/breizhlink", "root", "");
+			if(System.getProperty("os.name").toLowerCase().equals("linux")) {
+				Class.forName("org.mariadb.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/breizhlink", "root", "new_password");				
+			} else {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/breizhlink", "root", "");
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
