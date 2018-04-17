@@ -77,6 +77,7 @@ public class DAO {
 			ResultSet rs = statement.executeQuery("SELECT short_url FROM url");
 			HashSet<String> usedUrls = new HashSet<>();
 			while (rs.next()) {
+				System.out.println(rs.getString(1));
 				usedUrls.add(rs.getString(1));
 			}
 			UrlGenerator.setUsedUrls(usedUrls);

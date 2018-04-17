@@ -15,6 +15,8 @@ import src.main.java.util.UrlGenerator;
  */
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static final String BASE_URL = "http://localhost:8080/Breizhlink/";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -69,8 +71,8 @@ public class Controller extends HttpServlet {
 				String password = request.getParameter("password");
 				Url url = new Url(sourceUrl, shortUrl, password);
 				DAO.insertUrl(url);
-				request.setAttribute("shortUrl", shortUrl);
-				page = "views/result.jsp";
+				request.setAttribute("shortUrl", BASE_URL + shortUrl);
+				page = "views/result-link.jsp";
 				break;
 	
 		}

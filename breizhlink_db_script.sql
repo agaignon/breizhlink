@@ -19,7 +19,7 @@ create table url (
 id serial,
 id_user bigint unsigned,
 source_url text,
-short_url text,
+short_url varchar(5) unique,
 mail text,
 creation_date date,
 start_date date,
