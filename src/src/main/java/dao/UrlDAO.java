@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 
+import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
 import src.main.java.util.BCrypt;
 import src.main.java.util.UrlGenerator;
-public class DAO {
+
+public class UrlDAO {
 
 	private static Connection conn;
 
@@ -36,7 +38,8 @@ public class DAO {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// Inserts Url object
 	public static void insertUrl(Url url) {
 		try {
 			connect();
@@ -70,17 +73,58 @@ public class DAO {
 		}
 	}
 	
+	// Gets Url or AuthenticatedUrl object
+	public static Url getUrlWithShortUrl(String shortUrl) {		
+		Url url = null;
+		try {
+			connect();
+			String sqlUrl = "SELECT * FROM url WHERE short_url = ?";
+			PreparedStatement psUrl = conn.prepareStatement(sqlUrl);
+			psUrl.setString(1, shortUrl);
+			ResultSet rsUrl = psUrl.executeQuery();
+			
+			if (rsUrl.next()) {
+				if (rsUrl.getString(10).equals("Url")) {
+					
+					String sqlPwd = "SELECT password FROM url_passwords WHERE id_url = ?";
+					PreparedStatement psPwd = conn.prepareStatement(sqlPwd);
+					psPwd.setLong(1, rsUrl.getLong(1));
+					ResultSet rsPwd = psPwd.executeQuery();
+					String password = "";
+					if (rsPwd.next()) password = rsPwd.getString(1);	
+					
+					url = new Url(rsUrl.getLong(1), rsUrl.getString(3), rsUrl.getString(4), password);
+					
+					rsPwd.close();
+					psPwd.close();
+				} else {
+					// TODO
+					url = new AuthenticatedUrl();
+				}
+			}
+			rsUrl.close();
+			psUrl.close();
+			close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return url;
+	}
+	
 	public static void loadUsedUrls () {
 		try {
 			connect();
 			Statement statement = conn.createStatement();
 			ResultSet rs = statement.executeQuery("SELECT short_url FROM url");
 			HashSet<String> usedUrls = new HashSet<>();
+			
 			while (rs.next()) {
 				System.out.println(rs.getString(1));
 				usedUrls.add(rs.getString(1));
 			}
+			
 			UrlGenerator.setUsedUrls(usedUrls);
+			
 			rs.close();
 			statement.close();
 			close();

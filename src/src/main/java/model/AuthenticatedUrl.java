@@ -184,5 +184,10 @@ public class AuthenticatedUrl extends Url {
 				+ ", mail=" + mail + ", creationDate=" + creationDate + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", captcha=" + captcha + "]";
 	}	
+	
+	// TODO
+	public Boolean needsCheck() {
+		return null;
+	}
 
 }

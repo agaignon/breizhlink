@@ -104,4 +104,8 @@ public class Url {
 		return "Url [id=" + id + ", sourceUrl=" + sourceUrl + ", shortUrl=" + shortUrl + ", password=" + password + "]";
 	}	
 	
+	public Boolean needsCheck() {
+		return !password.equals("");
+	}
+	
 }
