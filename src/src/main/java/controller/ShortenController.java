@@ -13,7 +13,7 @@ import src.main.java.util.UrlGenerator;
 /**
  * Servlet implementation class Controller
  */
-public class Controller extends HttpServlet {
+public class ShortenController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String BASE_URL = "http://localhost:8080/Breizhlink/y/";
@@ -21,7 +21,7 @@ public class Controller extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Controller() {
+    public ShortenController() {
         super();        
         UrlDAO.loadUsedUrls();
         System.out.println("Loaded used URLs");
@@ -74,8 +74,8 @@ public class Controller extends HttpServlet {
 				
 				Url url = new Url(sourceUrl, shortUrl, password);
 				UrlDAO.insertUrl(url);
-				request.setAttribute("shortUrl", BASE_URL + shortUrl);
-				page = "views/result-link.jsp";
+				request.setAttribute("fullShortUrl", BASE_URL + shortUrl);
+				page = "views/result_link.jsp";
 				break;
 	
 		}

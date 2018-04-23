@@ -4,11 +4,11 @@
   <display-name>Breizhlink</display-name>
   
   <servlet>
-    <servlet-name>Controller</servlet-name>
-    <servlet-class>src.main.java.controller.Controller</servlet-class>
+    <servlet-name>ShortenController</servlet-name>
+    <servlet-class>src.main.java.controller.ShortenController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Controller</servlet-name>
+    <servlet-name>ShortenController</servlet-name>
     <url-pattern>/shorten</url-pattern>
   </servlet-mapping>
   
