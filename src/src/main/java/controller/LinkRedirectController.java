@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.main.java.dao.UrlDAO;
-import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
 
 /**
@@ -43,29 +42,13 @@ public class LinkRedirectController extends HttpServlet {
 			
 			String shortUrl = urlParts[1];
 			Url url = UrlDAO.getUrlWithShortUrl(shortUrl);			
-//			HttpSession session = request.getSession();
-//			session.setAttribute("url", url);			
+			HttpSession session = request.getSession();
+			session.setAttribute("url", url);			
 			
 			// If Url or AuthenticatedUrl needs check i.e. password(s), captcha, date, etc
 			if (url.needsCheck()) {
-				String page = null;
-				
-				// If it is an AuthenticatedUrl object
-				if (url instanceof AuthenticatedUrl) {
-					// TODO
-				} else {
-					String password = request.getParameter("password");
-					System.out.println("'" + password + "'");
-					
-					page = "views/link_check.jsp";
-				}
-				request.setAttribute("shortUrl", shortUrl);
-				
-				System.out.println(page);
-				
-				// Redirect to /y/*/check or forward to another servlet
-				// Try redirect to jsp
-				request.getRequestDispatcher(page).forward(request, response);
+				System.out.println(request.getContextPath());
+				response.sendRedirect(request.getContextPath() + "/check");
 				
 			} else {				
 				response.sendRedirect(url.getSourceUrl());

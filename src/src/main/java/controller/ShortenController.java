@@ -17,15 +17,6 @@ public class ShortenController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String BASE_URL = "http://localhost:8080/Breizhlink/y/";
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ShortenController() {
-        super();        
-        UrlDAO.loadUsedUrls();
-        System.out.println("Loaded used URLs");
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -67,7 +58,7 @@ public class ShortenController extends HttpServlet {
 		switch (action) {
 			case "doShorten":
 				String sourceUrl = request.getParameter("sourceUrl");
-				String shortUrl = UrlGenerator.generateUrl();				
+				String shortUrl = UrlGenerator.generateShortUrl();				
 				String password = request.getParameter("password");				
 				
 				System.out.println("'" + password + "'");

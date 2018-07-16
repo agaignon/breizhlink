@@ -24,3 +24,7 @@ body{
 .header-margin {
 	height: 60px;
 }
+
+.errorText {
+	color: red;
+}

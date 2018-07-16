@@ -6,12 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-
 import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
 import src.main.java.util.BCrypt;
-import src.main.java.util.UrlGenerator;
 
 public class UrlDAO {
 
@@ -111,26 +108,25 @@ public class UrlDAO {
 		return url;
 	}
 	
-	public static void loadUsedUrls () {
-		try {
-			connect();
-			Statement statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT short_url FROM url");
-			HashSet<String> usedUrls = new HashSet<>();
-			
-			while (rs.next()) {
-				System.out.println(rs.getString(1));
-				usedUrls.add(rs.getString(1));
-			}
-			
-			UrlGenerator.setUsedUrls(usedUrls);
-			
+	public static Boolean shortUrlExists(String shortUrl) {
+		Boolean bool = null;
+	    try {
+	    	connect();
+	    	String sql = "select 1 from url where short_url = ?";
+		    PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, shortUrl);
+			ResultSet rs = ps.executeQuery();
+			bool = rs.next();
 			rs.close();
-			statement.close();
+			ps.close();
 			close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	    
+	    System.out.println("Short Url exists : " + bool);
+	    return bool;
 	}
 
 }

@@ -15,7 +15,7 @@
 		<div class="one-half column">
 			<div id="password_div" style="visibility: hidden; float: right;">
 				<label for="password_input">Password</label>
-				<input id="password_input" name="password" type="text">
+				<input id="password_input" name="password" type="password">
 			</div>
 			
 			<input value="Shorten" style="float: right;" type="submit">

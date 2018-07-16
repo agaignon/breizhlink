@@ -19,7 +19,16 @@
   <servlet-mapping>
     <servlet-name>LinkRedirectController</servlet-name>
     <url-pattern>/y/*</url-pattern>
-  </servlet-mapping> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LinkCheckController</servlet-name>
+    <servlet-class>src.main.java.controller.LinkCheckController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LinkCheckController</servlet-name>
+    <url-pattern>/check</url-pattern>
+  </servlet-mapping>
   
   <error-page>
     <error-code>404</error-code>
