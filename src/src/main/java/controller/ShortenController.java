@@ -13,6 +13,7 @@ import src.main.java.util.UrlGenerator;
 /**
  * Servlet implementation class Controller
  */
+
 public class ShortenController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

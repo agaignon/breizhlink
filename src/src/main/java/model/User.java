@@ -18,6 +18,13 @@ public class User {
 		this.accountActivated = accountActivated;
 	}
 	
+	public User(String username, String password, String mail, Status status) {
+		this.username = username;
+		this.password = password;
+		this.mail = mail;
+		this.status = status;
+	}
+	
 	public User() {
 		// Empty constructor
 	}

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  
   <display-name>Breizhlink</display-name>
-  
   <servlet>
     <servlet-name>ShortenController</servlet-name>
     <servlet-class>src.main.java.controller.ShortenController</servlet-class>
@@ -11,7 +9,6 @@
     <servlet-name>ShortenController</servlet-name>
     <url-pattern>/shorten</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>LinkRedirectController</servlet-name>
     <servlet-class>src.main.java.controller.LinkRedirectController</servlet-class>
@@ -20,7 +17,6 @@
     <servlet-name>LinkRedirectController</servlet-name>
     <url-pattern>/y/*</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>LinkCheckController</servlet-name>
     <servlet-class>src.main.java.controller.LinkCheckController</servlet-class>
@@ -29,7 +25,30 @@
     <servlet-name>LinkCheckController</servlet-name>
     <url-pattern>/check</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <servlet-name>SignUpController</servlet-name>
+    <servlet-class>src.main.java.controller.SignUpController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SignUpController</servlet-name>
+    <url-pattern>/signup</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>VerifyEmailController</servlet-name>
+    <servlet-class>src.main.java.controller.VerifyEmailController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VerifyEmailController</servlet-name>
+    <url-pattern>/verify/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AccountActivatedController</servlet-name>
+    <servlet-class>src.main.java.controller.AccountActivatedController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AccountActivatedController</servlet-name>
+    <url-pattern>/account_activated</url-pattern>
+  </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/views/404.jsp</location>
