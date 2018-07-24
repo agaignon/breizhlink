@@ -17,7 +17,7 @@ import src.main.java.util.UrlGenerator;
 public class ShortenController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String BASE_URL = "http://localhost:8080/Breizhlink/y/";
+	private static final String BASE_URL = "http://localhost:8080/breizhlink/y/";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -25,54 +25,32 @@ public class ShortenController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String page = null;
-		String action = request.getParameter("action");
-
-		if (action == null) {
-			action = "showShortener";
-		}
-
-		switch (action) {
-			case "showShortener":
-				page = "views/shortener.jsp";
-				break;
-
-		}
-
-		request.getRequestDispatcher(page).forward(request, response);
+	    
+		request.getRequestDispatcher("views/shortener.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {		
-		
-		String page = null;
-		String action = request.getParameter("action");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (action == null) {
-			page = "views/shortener.jsp";
-		}
-		
-		switch (action) {
-			case "doShorten":
-				String sourceUrl = request.getParameter("sourceUrl");
-				String shortUrl = UrlGenerator.generateShortUrl();				
-				String password = request.getParameter("password");				
-				
-				System.out.println("'" + password + "'");
-				
-				Url url = new Url(sourceUrl, shortUrl, password);
-				UrlDAO.insertUrl(url);
-				request.setAttribute("fullShortUrl", BASE_URL + shortUrl);
-				page = "views/result_link.jsp";
-				break;
-	
-		}
-		
-		request.getRequestDispatcher(page).forward(request, response);
-	}
+        String sourceUrl = request.getParameter("sourceUrl");
+        String shortUrl = UrlGenerator.generateShortUrl();
+        
+        String pwdCheck = request.getParameter("pwdCheck");
+        String password = "";
+        
+        if (pwdCheck != null) {
+            password = request.getParameter("password");
+        }
+
+        System.out.println("'" + password + "'");
+
+        Url url = new Url(sourceUrl, shortUrl, password);
+        UrlDAO.insertUrl(url);
+        request.setAttribute("fullShortUrl", BASE_URL + shortUrl);
+
+        request.getRequestDispatcher("views/result_link.jsp").forward(request, response);
+    }
 
 }

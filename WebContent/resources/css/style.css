@@ -1,12 +1,12 @@
-body{
+body {
     font-family: 'Roboto';
 }
 
-.mainwrapper{
+.mainwrapper {
     margin-top: 60px;
 }
 
-.stickyheader{
+.stickyheader {
     overflow: hidden;
     height: 60px;
     background-color: rgb(49, 50, 116);
@@ -17,14 +17,42 @@ body{
     font-family: 'Roboto';
 }
 
-.headercontent{
-    padding-left: 50px;
+.header-content {
+    margin-left: 35px;
+    margin-top: 3px;
 }
 
 .header-margin {
 	height: 60px;
+	background-color: #3b3f44;
 }
 
 .errorText {
 	color: red;
 }
+
+.nav-right {
+	float: right;
+	margin-right: 15px;
+	margin-top: 17px;
+}
+
+.nav-link:link {
+	color: white !important;
+    text-decoration: none !important;
+}
+
+.nav-link:visited {
+	color: white !important;
+    text-decoration: none !important;
+}
+
+.nav-link:hover {
+	color: white !important;
+    text-decoration: none !important;
+}
+
+.nav-link:active {
+	color: white !important;
+    text-decoration: none !important;
+} 

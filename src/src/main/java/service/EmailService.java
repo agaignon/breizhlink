@@ -25,7 +25,7 @@ public class EmailService {
 	
 	public static void sendMail(User user) {
 		
-		String body = "<a href=\"http://localhost:8080/Breizhlink/verify/" + user.getId() + "\">Verify your account</a>";
+		String body = "<a href=\"http://localhost:8080/breizhlink/verify/" + user.getId() + "\">Verify your account</a>";
 		
 		Properties properties = System.getProperties();
 

@@ -17,7 +17,7 @@ import src.main.java.model.Url;
 public class LinkRedirectController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String BASE_URL = "http://localhost:8080/Breizhlink/y/";
+	private static final String BASE_URL = "http://localhost:8080/breizhlink/y/";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,7 +37,7 @@ public class LinkRedirectController extends HttpServlet {
 		
 		String[] urlParts = requestUrl.split(BASE_URL);
 		
-		// If url is well formed like http://localhost:8080/Breizhlink/y/Bi6oR
+		// If url is well formed like http://localhost:8080/breizhlink/y/Bi6oR
 		// else 404
 		if (urlParts.length == 2 && urlParts[1].length() == 5) {
 			

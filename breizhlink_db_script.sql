@@ -1,3 +1,5 @@
+CREATE DATABASE breizhlink;
+
 create table status (
 id serial,
 name text,
@@ -7,7 +9,7 @@ primary key (id)
 create table user (
 id serial,
 id_status bigint unsigned,
-username text,
+username varchar(255) unique,
 password text,
 mail text,
 account_activated boolean,
@@ -47,6 +49,11 @@ password text,
 primary key (id),
 foreign key (id_url) references url(id)
 );
+
+insert into status
+values (1, "INDIVIDUAL"),
+(2, "COMPANY"),
+(3, "ASSOCIATION");
 
 
 

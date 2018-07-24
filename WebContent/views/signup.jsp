@@ -35,5 +35,9 @@
 		<p class="errorText">All fields are required !</p>
 	</c:if>
 	
+	<c:if test="${username_exists}">
+		<p class="errorText">Username already exists !</p>
+	</c:if>
+	
 </div>
 <jsp:include page="layouts/footer.jsp" />

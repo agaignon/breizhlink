@@ -56,6 +56,12 @@ public class SignUpController extends HttpServlet {
 			return;
 		}
 		
+		if (UserDAO.usernameExists(username)) {
+		    request.setAttribute("username_exists", true);
+            request.getRequestDispatcher("views/signup.jsp").forward(request, response);
+            return;
+		}
+		
 		User user = new User(username, password, mail, Status.valueOf(status));
 		user = UserDAO.insertUser(user);
 		EmailService.sendMail(user);

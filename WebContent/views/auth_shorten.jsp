@@ -1,4 +1,6 @@
 <jsp:include page="layouts/header.jsp" />
+
+<h2>YO Wadap</h2>
 <div class="mainwrapper twelve columns">
 	<form action="" class="three columns offset-by-four" method="post">
 	

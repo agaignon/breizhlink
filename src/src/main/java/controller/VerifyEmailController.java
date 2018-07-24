@@ -15,7 +15,7 @@ import src.main.java.dao.UserDAO;
 public class VerifyEmailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String BASE_URL = "http://localhost:8080/Breizhlink/verify/";
+	private static final String BASE_URL = "http://localhost:8080/breizhlink/verify/";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,7 +36,7 @@ public class VerifyEmailController extends HttpServlet {
 
 		String[] urlParts = requestUrl.split(BASE_URL);
 
-		// If url is well formed like http://localhost:8080/Breizhlink/verify/10
+		// If url is well formed like http://localhost:8080/breizhlink/verify/10
 		// else 404
 		if (urlParts.length == 2 && urlParts[1].matches("^\\d+$")) {
 			

@@ -6,9 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
 import src.main.java.model.User;
+import src.main.java.model.Status;
 import src.main.java.util.BCrypt;
 
 public class UserDAO {
@@ -80,8 +82,103 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
-		return (count > 0);
+		return count > 0;
 	}
+	
+    public static Boolean userExists(String username, String password) {
+
+        Boolean bool = false;
+        try {
+            connect();
+            String sql = "select password from user where username = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next() && BCrypt.checkpw(password, rs.getString(1))) {
+                bool = true;
+            }
+            
+            rs.close();
+            ps.close();
+            close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("User exists : " + bool);
+        return bool;
+    }
+    
+    public static Boolean isAccountActivated(String username) {
+        
+        Boolean bool = false;
+        try {
+            connect();
+            String sql = "select 1 from user where username = ? and account_activated = 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            bool = rs.next();
+            rs.close();
+            ps.close();
+            close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Account activated : " + bool);
+        return bool;
+    }
+    
+    public static Boolean usernameExists(String username) {
+        
+        Boolean bool = false;
+        try {
+            connect();
+            String sql = "select 1 from user where username = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            bool = rs.next();
+            rs.close();
+            ps.close();
+            close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Username exists : " + bool);
+        return bool;
+    }
+    
+    public static User findByUsername(String username) {
+        
+        User user = null;
+        try {
+            connect();
+            String sql = "select id, (select name from status where id = id_status), username, password, mail, account_activated from user where username = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                
+                user = new User(rs.getLong(1), rs.getString(3), rs.getString(4), rs.getString(5), Status.valueOf(rs.getString(2)), rs.getBoolean(6));
+            }
+            rs.close();
+            ps.close();
+            close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return user;
+    }
 	
 //	public static Boolean shortUrlExists(String shortUrl) {
 //		Boolean bool = null;

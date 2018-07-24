@@ -30,5 +30,13 @@
 		
 	</form>
 	
+	<c:if test="${error}">
+		<p class="errorText">Wrong credentials !</p>
+	</c:if>
+	
+	<c:if test="${account_not_activated}">
+		<p class="errorText">Please verify your email !</p>
+	</c:if>
+	
 </div>
 <jsp:include page="layouts/footer.jsp" />
