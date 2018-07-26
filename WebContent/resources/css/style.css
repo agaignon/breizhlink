@@ -56,3 +56,7 @@ body {
 	color: white !important;
     text-decoration: none !important;
 } 
+
+.password_div {
+	visibility: hidden;
+}

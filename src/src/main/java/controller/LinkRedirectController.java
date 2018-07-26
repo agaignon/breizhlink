@@ -46,6 +46,8 @@ public class LinkRedirectController extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("url", url);			
 			
+			System.out.println(url);
+			
 			// If Url or AuthenticatedUrl needs check i.e. password(s), captcha, date, etc
 			if (url.needsCheck()) {
 				System.out.println(request.getContextPath());

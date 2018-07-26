@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Breizhlink</display-name>
   <servlet>
     <servlet-name>ShortenController</servlet-name>
@@ -73,6 +74,14 @@
     <servlet-name>AuthenticatedShortenController</servlet-name>
     <url-pattern>/auth/shorten</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <servlet-class>com.captcha.botdetect.web.servlet.SimpleCaptchaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BotDetect Captcha</servlet-name>
+    <url-pattern>/botdetectcaptcha</url-pattern>
+  </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/views/404.jsp</location>
@@ -80,4 +89,10 @@
   <welcome-file-list>
     <welcome-file>/views/index.jsp</welcome-file>
   </welcome-file-list>
+  <jsp-config>
+    <taglib>
+      <taglib-uri>http://localhost:8080/taglibs/captcha</taglib-uri>
+      <taglib-location>/WEB-INF/lib/captcha_taglib.tld</taglib-location>
+    </taglib>
+  </jsp-config>
 </web-app>

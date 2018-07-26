@@ -1,6 +1,6 @@
 package src.main.java.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AuthenticatedUrl extends Url {
@@ -9,13 +9,13 @@ public class AuthenticatedUrl extends Url {
 	private List<Stats> statsList;
 	private User user;
 	private String mail;
-	private Date creationDate;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate creationDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private Boolean captcha;
 	
 	public AuthenticatedUrl(String sourceUrl, String shortUrl, String password, List<String> passwordList,
-			List<Stats> statsList, User user, String mail, Date creationDate, Date startDate, Date endDate,
+			List<Stats> statsList, User user, String mail, LocalDate creationDate, LocalDate startDate, LocalDate endDate,
 			Boolean captcha) {
 		super(sourceUrl, shortUrl, password);
 		this.passwordList = passwordList;
@@ -29,7 +29,7 @@ public class AuthenticatedUrl extends Url {
 	}
 	
 	public AuthenticatedUrl(Long id, String sourceUrl, String shortUrl, String password, List<String> passwordList,
-			List<Stats> statsList, User user, String mail, Date creationDate, Date startDate, Date endDate,
+			List<Stats> statsList, User user, String mail, LocalDate creationDate, LocalDate startDate, LocalDate endDate,
 			Boolean captcha) {
 		super(id, sourceUrl, shortUrl, password);
 		this.passwordList = passwordList;
@@ -78,27 +78,27 @@ public class AuthenticatedUrl extends Url {
 		this.mail = mail;
 	}
 
-	public Date getCreationDate() {
+	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
@@ -185,9 +185,28 @@ public class AuthenticatedUrl extends Url {
 				+ endDate + ", captcha=" + captcha + "]";
 	}	
 	
-	// TODO
-	public Boolean needsCheck() {
-		return null;
+	public Boolean needsPasswordCheck() {
+		
+	    for (String password : passwordList) {
+	        if (!password.equals("")) return true;
+	    }
+	    
+	    return false;
 	}
+	
+	@Override
+	public Boolean needsCheck() {
+	    
+	    return needsPasswordCheck() || !mail.equals("") || endDate != null || captcha;
+	}
+	
+	public int passwordListSize() {
+	    return passwordList.size();
+	}
+	
+public Boolean needsFormValidation() {
+        
+        return needsPasswordCheck() || !mail.equals("") || captcha;
+    }
 
 }

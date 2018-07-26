@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
 import src.main.java.util.BCrypt;
@@ -70,6 +73,54 @@ public class UrlDAO {
 		}
 	}
 	
+	public static void insertAuthenticatedUrl(AuthenticatedUrl authenticatedUrl) {
+	    
+	    try {
+            connect();
+            String sqlUrl = "INSERT INTO url (id, id_user, source_url, short_url, mail, creation_date, start_date, end_date, captcha, url_type)" + "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement psUrl = conn.prepareStatement(sqlUrl, Statement.RETURN_GENERATED_KEYS);           
+            psUrl.setLong(1, authenticatedUrl.getUser().getId());
+            psUrl.setString(2, authenticatedUrl.getSourceUrl());
+            psUrl.setString(3, authenticatedUrl.getShortUrl());
+            psUrl.setString(4, authenticatedUrl.getMail());
+            psUrl.setObject(5, authenticatedUrl.getCreationDate());
+            psUrl.setObject(6, authenticatedUrl.getStartDate());
+            psUrl.setObject(7, authenticatedUrl.getEndDate());
+            psUrl.setBoolean(8, authenticatedUrl.getCaptcha());            
+            psUrl.setString(9, authenticatedUrl.getClass().getSimpleName());
+            psUrl.executeUpdate();                  
+            
+            if (authenticatedUrl.needsPasswordCheck()) {            
+                
+                // Get last generated url id
+                ResultSet rs = psUrl.getGeneratedKeys();
+                Long urlId = null;
+                if (rs.next()) urlId = rs.getLong(1);  
+                
+                PreparedStatement psPwd = null;
+                for (String password : authenticatedUrl.getPasswordList()) {
+                    
+                    if (!password.equals("")) {
+                        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());             
+                        String sqlPwd = "INSERT INTO url_passwords (id, id_url, password)" + "VALUES (default, ?, ?)";
+                        psPwd = conn.prepareStatement(sqlPwd);                    
+                        psPwd.setLong(1, urlId);                
+                        psPwd.setString(2, hashedPassword);
+                        psPwd.executeUpdate();
+                    }
+                }
+                
+                psPwd.close();
+                rs.close();
+            }
+            
+            psUrl.close();
+            close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	// Gets Url or AuthenticatedUrl object
 	public static Url getUrlWithShortUrl(String shortUrl) {		
 		Url url = null;
@@ -95,8 +146,22 @@ public class UrlDAO {
 					rsPwd.close();
 					psPwd.close();
 				} else {
-					// TODO
-					url = new AuthenticatedUrl();
+					
+				    String sqlPwd = "SELECT password FROM url_passwords WHERE id_url = ?";
+                    PreparedStatement psPwd = conn.prepareStatement(sqlPwd);
+                    psPwd.setLong(1, rsUrl.getLong(1));
+                    ResultSet rsPwd = psPwd.executeQuery();
+                    
+                    ArrayList<String> passwordList = new ArrayList<>();
+                    
+                    while (rsPwd.next()) {
+                        passwordList.add(rsPwd.getString(1));
+                    }
+                    
+                    url = new AuthenticatedUrl(rsUrl.getLong(1), rsUrl.getString(3), rsUrl.getString(4), "",
+                            passwordList, null, null, rsUrl.getString(5), rsUrl.getObject(6, LocalDate.class),
+                            rsUrl.getObject(7, LocalDate.class), rsUrl.getObject(8, LocalDate.class), rsUrl.getBoolean(9));
+                    
 				}
 			}
 			rsUrl.close();

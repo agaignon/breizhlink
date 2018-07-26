@@ -13,7 +13,7 @@
 		</div>
 	
 		<div class="one-half column">
-			<div id="password_div" style="visibility: hidden; float: right;">
+			<div id="password_div" class="password_div">
 				<label for="password_input">Password</label>
 				<input id="password_input" name="password" type="password">
 			</div>
