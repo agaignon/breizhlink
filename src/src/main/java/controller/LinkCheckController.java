@@ -118,6 +118,7 @@ public class LinkCheckController extends HttpServlet {
 	        request.setAttribute("wrong_password", true);
 		}
 		
+		request.setAttribute("urlType", url.getClass().getSimpleName());
 		request.getRequestDispatcher("/views/link_check.jsp").forward(request, response);
 	}
 
