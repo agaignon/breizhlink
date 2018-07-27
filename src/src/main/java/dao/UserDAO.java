@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import src.main.java.model.AuthenticatedUrl;
-import src.main.java.model.Url;
 import src.main.java.model.User;
 import src.main.java.model.Status;
 import src.main.java.util.BCrypt;

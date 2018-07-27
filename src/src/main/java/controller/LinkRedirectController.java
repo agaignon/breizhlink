@@ -1,13 +1,17 @@
 package src.main.java.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import src.main.java.dao.StatsDAO;
 import src.main.java.dao.UrlDAO;
+import src.main.java.model.Stats;
 import src.main.java.model.Url;
 
 /**
@@ -18,6 +22,20 @@ public class LinkRedirectController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String BASE_URL = "http://localhost:8080/breizhlink/y/";
+	
+	private static final String[] IP_HEADER_CANDIDATES = { 
+	        "X-Forwarded-For",
+	        "Proxy-Client-IP",
+	        "WL-Proxy-Client-IP",
+	        "HTTP_X_FORWARDED_FOR",
+	        "HTTP_X_FORWARDED",
+	        "HTTP_X_CLUSTER_CLIENT_IP",
+	        "HTTP_CLIENT_IP",
+	        "HTTP_FORWARDED_FOR",
+	        "HTTP_FORWARDED",
+	        "HTTP_VIA",
+	        "REMOTE_ADDR"
+	};
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,7 +62,12 @@ public class LinkRedirectController extends HttpServlet {
 			String shortUrl = urlParts[1];
 			Url url = UrlDAO.getUrlWithShortUrl(shortUrl);			
 			HttpSession session = request.getSession();
-			session.setAttribute("url", url);			
+			session.setAttribute("url", url);	
+			
+			Stats stats = new Stats();
+			stats.setDate(LocalDate.now());
+			stats.setIpAddress(getClientIpAddress(request));
+			StatsDAO.insertOrIncrementStats(url.getId(), stats);
 			
 			System.out.println(url);
 			
@@ -72,5 +95,15 @@ public class LinkRedirectController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+    private static String getClientIpAddress(HttpServletRequest request) {
+        for (String header : IP_HEADER_CANDIDATES) {
+            String ip = request.getHeader(header);
+            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                return ip;
+            }
+        }
+        return request.getRemoteAddr();
+    }
 
 }

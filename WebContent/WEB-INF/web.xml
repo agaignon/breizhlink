@@ -82,6 +82,14 @@
     <url-pattern>/auth/urls</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>StatsController</servlet-name>
+    <servlet-class>src.main.java.controller.StatsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StatsController</servlet-name>
+    <url-pattern>/auth/stats</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>BotDetect Captcha</servlet-name>
     <servlet-class>com.captcha.botdetect.web.servlet.SimpleCaptchaServlet</servlet-class>
   </servlet>
@@ -101,7 +109,6 @@
       <taglib-uri>http://localhost:8080/taglibs/captcha</taglib-uri>
       <taglib-location>/WEB-INF/lib/captcha_taglib.tld</taglib-location>
     </taglib>
-    
     <taglib>
       <taglib-uri>http://localhost:8080/taglibs/pagination</taglib-uri>
       <taglib-location>/WEB-INF/lib/pagination_taglib.tld</taglib-location>

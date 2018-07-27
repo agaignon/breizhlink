@@ -1,14 +1,14 @@
 package src.main.java.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Stats {
 	
 	private int nbClick;
-	private Date date;
+	private LocalDate date;
 	private String ipAddress;
 	
-	public Stats(int nbClick, Date date, String ipAddress) {
+	public Stats(int nbClick, LocalDate date, String ipAddress) {
 		this.nbClick = nbClick;
 		this.date = date;
 		this.ipAddress = ipAddress;
@@ -26,11 +26,11 @@ public class Stats {
 		this.nbClick = nbClick;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

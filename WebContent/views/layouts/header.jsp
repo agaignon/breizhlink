@@ -26,7 +26,7 @@
 			<c:choose>
 				<c:when test="${not empty sessionScope.user}">
 					<div class="nav-right">
-						<a href="<c:url value="/auth/account"/>" class="nav-link">Hello, ${sessionScope.user.username}</a>&emsp;&emsp;
+						<a href="<c:url value="#"/>" class="nav-link">Hello, ${sessionScope.user.username}</a>&emsp;&emsp;
 						<a href="<c:url value="/auth/urls"/>" class="nav-link">My URLs</a>&emsp;&emsp;
 						<a href="<c:url value="/logout"/>" class="nav-link">Log out</a>
 					</div>
