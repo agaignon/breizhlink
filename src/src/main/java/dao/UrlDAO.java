@@ -8,9 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import src.main.java.model.AuthenticatedUrl;
 import src.main.java.model.Url;
+import src.main.java.model.User;
 import src.main.java.util.BCrypt;
 
 public class UrlDAO {
@@ -192,6 +194,38 @@ public class UrlDAO {
 	    
 	    System.out.println("Short Url exists : " + bool);
 	    return bool;
+	}
+	
+	public static List<AuthenticatedUrl> findAllByUser(User user) {
+	    
+	    List<AuthenticatedUrl> authenticatedUrlList = new ArrayList<>();
+	    
+	    try {
+            connect();
+            String sql = "select id, source_url, short_url, creation_date from url where id_user = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                AuthenticatedUrl authenticatedUrl = new AuthenticatedUrl();
+                authenticatedUrl.setId(rs.getLong(1));
+                authenticatedUrl.setSourceUrl(rs.getString(2));
+                authenticatedUrl.setShortUrl(rs.getString(3));
+                authenticatedUrl.setCreationDate(rs.getObject(4, LocalDate.class));
+                
+                authenticatedUrlList.add(authenticatedUrl);
+            }
+            
+            rs.close();
+            ps.close();
+            close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	    
+	    return authenticatedUrlList;
 	}
 
 }
