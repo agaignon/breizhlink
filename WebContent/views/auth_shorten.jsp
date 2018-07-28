@@ -23,12 +23,12 @@
 				
 				<div>
 					<input type="radio" id="fromto" name="date" value="fromto"/>
-					Available from <input type="text" name="from"/> to <input type="text" name="to"/>
+					Available from <input type="text" name="from" placeholder="dd/mm/yyyy"/> to <input type="text" name="to" placeholder="dd/mm/yyyy"/>
 				</div>
 		
 				<div>
 					<input type="radio" id="until" name="date" value="until"/>
-					Available until <input type="text" name="until"/>
+					Available until <input type="text" name="until" placeholder="dd/mm/yyyy"/>
 				</div>
 				
 				<input value="Shorten" style="float: right;" type="submit">
