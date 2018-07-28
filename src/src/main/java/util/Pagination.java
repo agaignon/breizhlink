@@ -37,21 +37,31 @@ public class Pagination<T> {
 		return size;
 	}
 	
-	//Corrects the page 
-	//If it is higher than the last page index (Out of Bounds), it is reset to last page index
+	/**
+	 * Corrects the page
+	 * If it is higher than the last page index (Out of Bounds), it is reset to last page index
+	 * @param page is the requested page number
+	 * @return correct page number
+	 */
 	private int correctPage(int page) {				
 		int lastPageIndex = getLastIndex();
 		return (page > lastPageIndex)? lastPageIndex : page;		
 	}
 	
-	//Returns the sublist of elements corresponding to the given page
+	/**
+	 * 
+	 * @return the sublist of elements corresponding to the given page
+	 */
 	public List<T> getPageList() {		
 		int start = page * size;																		//Start of sublist is calculated with given page and page size
 		int end = (start + size) > list.size() ? list.size() : (start + size);							//End of sublist is calculated with page size added to start 
 		return list.subList(start, end);																//or is directly end of list if it is the end
 	}
 	
-	//Returns the total number of pages
+	/**
+	 * 
+	 * @return the total number of pages
+	 */
 	public int getTotalPages() {
 		return (int) Math.ceil((double) list.size() / size);											//If we have 3 elements and page size = 2 ; 3/2 = 1.5 so we need 2 pages
 	}
@@ -60,17 +70,26 @@ public class Pagination<T> {
 		return page;
 	}
 	
-	//Returns the last page index e.g. total of pages - 1 because start is 0	
+	/**
+	 * 
+	 * @return the last page index e.g. total of pages -1 because start is 0
+	 */
 	public int getLastIndex() {
 		return (!list.isEmpty())? getTotalPages() - 1 : 0;												//If the list is empty then last index would be -1 because total pages is 0
 	}																									//So to avoid errors last index is reset to 0 if list is empty
 	
-	//Returns the begin index to display the page navigation
+	/**
+	 * 
+	 * @return the begin index to display the page navigation
+	 */
 	public int getBeginIndex() {
 		return Math.max(0, getCurrentIndex() - 2);														//If current page index is higher than 2 then the begin index increases for better UX
 	}
 	
-	//Returns the end index to display the page navigation
+	/**
+	 * 
+	 * @return the end index to display the page navigation
+	 */
 	public int getEndIndex() {
 		return Math.min(getBeginIndex() + 4, getLastIndex());											//If last index is more than 5 pages away it doesn't show for better UX
 	}
